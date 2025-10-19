@@ -1,26 +1,35 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-teal: #0b8b8f;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+html, body {
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ensure buttons inherit font family and weight unless overridden */
+button, input, textarea {
+  font-family: inherit;
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* make the form fields look like your screenshot: slightly darker than page and borderless */
+input, textarea {
+  border: none;
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+/* placeholder styling */
+::placeholder {
+  color: #9ca3af;
+}
+
+/* remove default focus ring but keep accessible outline on focus */
+input:focus, textarea:focus, button:focus {
+  outline: 2px solid transparent;
+  box-shadow: 0 0 0 3px rgba(11, 139, 143, 0.12);
+  border-radius: 0.5rem;
 }
