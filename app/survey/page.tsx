@@ -16,7 +16,7 @@ export default function SurveyPage() {
         {!submitted ? (
           <button
             onClick={() => setSubmitted(true)}
-            className="mt-10 w-full bg-gradient-to-r from-teal-600 to-cyan-600 text-white text-xl font-light py-4 rounded-xl hover:opacity-90"
+            className="btn-cta w-full mt-10"
           >
             إرسال الإجابات
           </button>

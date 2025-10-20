@@ -166,6 +166,12 @@ h4 {
   border: none;
   text-align: center;
   display: inline-block;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+}
+
+.btn-cta:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
 }
 
 /* small link */
@@ -182,6 +188,11 @@ h4 {
   font-size: 20px;
   color: #374151;
 }
+
+/* admin tweaks */
+.components-question-row { padding: 20px 0; }
+.question-actions button { transition: background .12s ease; }
+.question-divider { height: 1px; background: #f1f5f9; margin: 0; }
 
 /* responsive tweaks for smaller screens */
 @media (max-width: 1024px) {
