@@ -1,35 +1,230 @@
+/* app/globals.css */
+
+/* Tailwind directive imports - keep if your tailwind build expects them */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ---- Font ----
+   Using the Cairo font (nice Arabic UI font). If you prefer another,
+   change the import and font-family below.
+   Add in head or import via next/font if you use Next's font optimization.
+*/
+
+/* If you want to use Google fonts the faster way is to add a <link> in app/head or use next/font.
+   For now fallback to system plus Arabic-friendly fonts.
+*/
 :root {
   --brand-teal: #0b8b8f;
+  --left-overlay: rgba(0, 0, 0, 0.62);
+  --input-bg: #f2f4f6;
 }
 
-html, body {
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+/* font stack tuned for Arabic */
+html,
+body {
+  height: 100%;
+  font-family: "Cairo", system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Color Emoji", "Apple Color Emoji",
+    "Segoe UI Emoji";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: white;
+  color: #0f172a;
 }
 
-/* ensure buttons inherit font family and weight unless overridden */
-button, input, textarea {
-  font-family: inherit;
+/* reset heading weights to match screenshot's light headings */
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 300;
+  color: #0f172a;
 }
 
-/* make the form fields look like your screenshot: slightly darker than page and borderless */
-input, textarea {
+/* ---- Left panel exact look ----
+   The left panel uses a full-size background with dark overlay and large typography.
+*/
+.left-panel-root {
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+}
+.left-panel-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.left-panel-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--left-overlay);
+}
+
+/* left panel content bounding box (matching screenshot left-margin) */
+.left-panel-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 50px; /* tuned spacing */
+  color: white;
+}
+
+/* hero title size tuned */
+.left-panel-title {
+  font-size: 35px; /* big like screenshot */
+  line-height: 1;
+  font-weight: 300;
+  color: white;
+  margin: 0;
+}
+
+/* subtitle */
+.left-panel-sub {
+  margin-top: 12px;
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+/* small progress label & percent */
+.left-progress-row {
+  margin-top: 28px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.left-progress-label {
+  font-size: 12px;
+  opacity: 0.85;
+}
+
+/* progress bar container (we also include Tailwind bar below) */
+.progress-outer {
+  width: 100%;
+  height: 12px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+.progress-inner {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0b8b8f, #007d82);
+  transition: width 0.45s ease;
+}
+
+/* ---- Form / inputs tuned ---- */
+.form-root {
+  width: 100%;
+}
+
+/* big heading on right */
+.page-hero {
+  font-size: 44px;
+  font-weight: 300;
+  margin-bottom: 24px;
+  text-align: right;
+}
+
+/* inputs: borderless, light gray bg, big padding */
+.input-ghost {
+  width: 100%;
+  /* further reduce inputs by ~20% from previous size */
+  padding: 14px 35px 14px 13px; /* reduced padding */
+  border-radius: 9px;
+  background: var(--input-bg);
+  color: #0f172a;
   border: none;
-  background-color: #f3f4f6;
-  color: #111827;
+  font-size: 25px; /* reduced further */
+  text-align: right;
+  box-shadow: none;
 }
 
-/* placeholder styling */
-::placeholder {
-  color: #9ca3af;
+/* placeholder */
+.input-ghost::placeholder {
+  color: #9aa1a7;
+  font-size: 16px;
 }
 
-/* remove default focus ring but keep accessible outline on focus */
-input:focus, textarea:focus, button:focus {
-  outline: 2px solid transparent;
-  box-shadow: 0 0 0 3px rgba(11, 139, 143, 0.12);
-  border-radius: 0.5rem;
+/* focus ring subtle */
+.input-ghost:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(11, 139, 143, 0.08);
+}
+
+/* password eye wrapper */
+.input-icon {
+  position: absolute;
+  right: 18px; /* sits inside input on inner edge (RTL) */
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+}
+
+/* CTA button tuned */
+.btn-cta {
+  width: 100%;
+  padding: 18px 24px;
+  border-radius: 10px;
+  background: linear-gradient(90deg, #0b8b8f, #007d82);
+  color: #fff;
+  font-size: 22px;
+  font-weight: 300;
+  border: none;
+  text-align: center;
+  display: inline-block;
+}
+
+/* small link */
+.helper-link {
+  color: var(--brand-teal);
+  text-decoration: underline;
+}
+
+/* ensure RTL text alignment for form labels */
+.form-label {
+  text-align: right;
+  display: block;
+  margin-bottom: 8px;
+  font-size: 20px;
+  color: #374151;
+}
+
+/* responsive tweaks for smaller screens */
+@media (max-width: 1024px) {
+  .left-panel-content {
+    padding: 40px;
+  }
+  .left-panel-title {
+    font-size: 44px;
+  }
+  .page-hero {
+    font-size: 36px;
+  }
+}
+
+/* layout root: force a left-to-right column flow for the overall app layout
+   so the visual layout (aside on the left) is independent from the page
+   text direction (RTL). The app's main content can continue to be RTL. */
+.app-layout-root {
+  display: flex;
+  flex-direction: row;
+  direction: ltr; /* ensures the first child (aside) renders on the left */
+  min-height: 100vh;
+}
+
+.app-leftpanel {
+  /* make sure the left panel keeps its width and doesn't shrink */
+  flex: 0 0 auto;
+}
+
+.app-main {
+  /* ensure main grows to fill leftover space */
+  flex: 1 1 auto;
 }

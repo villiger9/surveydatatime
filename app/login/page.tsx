@@ -30,45 +30,41 @@ export default function LoginPage() {
   return (
     <div className="min-h-[82vh] flex items-center">
       <div className="w-full max-w-[760px] mx-auto">
-        <h2 className="text-[3.6rem] font-light text-right mb-8">أهلاً بك</h2>
+        <h2 className="page-hero">أهلاً بك</h2>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="form-root relative space-y-6">
           <div>
-            <label className="block text-right mb-2">اسم المستخدم أو الإيميل</label>
+            <label className="form-label">اسم المستخدم أو الإيميل</label>
             <input
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="youremail@guru.com"
-              className="w-full p-6 rounded-md bg-gray-100 placeholder:text-gray-400 text-right outline-none shadow-none"
-              style={{ border: 'none' }}
+              className="input-ghost"
             />
           </div>
 
           <div className="relative">
-            <label className="block text-right mb-2">كلمة المرور</label>
+            <label className="form-label">كلمة المرور</label>
             <input
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="أدخل كلمة المرور"
               type={showPass ? 'text' : 'password'}
-              className="w-full p-6 pr-14 rounded-md bg-gray-100 placeholder:text-gray-400 text-right outline-none shadow-none"
-              style={{ border: 'none' }}
+              className="input-ghost"
             />
-
-            {/* Eye button positioned at right (works with RTL). z-20 so it sits above the input */}
             <button
               type="button"
               onClick={() => setShowPass((s) => !s)}
-              aria-label="toggle password visibility"
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 text-gray-500"
+              aria-label="toggle password"
+              className="input-icon"
             >
               {showPass ? (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="#6b7280" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M15 9l-6 6" stroke="#6b7280" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               ) : (
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z" stroke="#6b7280" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                   <path d="M3 3l18 18" stroke="#6b7280" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
@@ -82,15 +78,14 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-5 rounded-lg text-xl font-light"
-              style={{ background: 'linear-gradient(90deg,#0b8b8f,#007d82)', color: 'white', fontFamily: 'inherit' }}
+              className="btn-cta"
             >
               {loading ? 'جارٍ...' : 'تسجيل دخول'}
             </button>
           </div>
 
           <div className="text-right mt-1">
-            <a className="text-teal-700 underline">تواصل معنا</a>
+            <a className="helper-link">تواصل معنا</a>
           </div>
         </form>
       </div>

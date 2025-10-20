@@ -10,17 +10,15 @@ export const metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="ar" dir="rtl">
-      <body className="min-h-screen antialiased bg-white text-slate-800">
-        {/* explicit flex-row and explicit order on children to prevent RTL re-ordering */}
-        <div className="min-h-screen flex flex-row">
-          {/* aside: left image column (fixed width) — explicit order-0 */}
-          <aside className="w-[42%] min-h-screen order-0">
+      <body className="min-h-screen antialiased bg-white text-slate-900">
+        {/* app-layout-root forces LTR flow for layout while individual sections remain RTL */}
+        <div className="app-layout-root min-h-screen">
+          <aside className="app-leftpanel w-[29%] min-h-screen">
             <LeftPanel />
           </aside>
 
-          {/* main content (right side). explicit order-1. keep RTL for text */}
-          <main dir="rtl" className="flex-1 p-10 order-1">
-            <div className="max-w-[880px] mx-auto">
+          <main dir="rtl" className="app-main flex-1 p-12">
+            <div className="max-w-[900px] mx-auto">
               {children}
             </div>
           </main>
