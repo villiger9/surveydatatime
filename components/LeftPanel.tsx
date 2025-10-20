@@ -2,7 +2,6 @@
 'use client'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import ProgressBar from './ProgressBar'
 
 export default function LeftPanel() {
   const pathname = usePathname()
@@ -12,7 +11,6 @@ export default function LeftPanel() {
 
   return (
     <div className="left-panel-root">
-  {/* use the SVG fallback present in public/; Next expects public assets to be referenced from the web root */}
   <Image src="/left.jpg" alt="bg" fill className="left-panel-image" priority />
       <div className="left-panel-overlay" />
       <div className="left-panel-content">

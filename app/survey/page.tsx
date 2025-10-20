@@ -1,51 +1,29 @@
-// app/survey/page.tsx (adjust)
+// app/survey/page.tsx
 'use client'
-import { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import QuestionList from '../../components/QuestionList'
-import ProgressBar from '../../components/ProgressBar'
-import { useSurveyStore } from '../../stores/useSurveyStore'
-import { useRouter } from 'next/navigation'
 
-type FormValues = Record<string, string>
+import { useState } from 'react'
+import QuestionList from '@/components/QuestionList'
 
 export default function SurveyPage() {
-  const questions = useSurveyStore((s) => s.questions)
-  const fetchQuestions = useSurveyStore((s) => s.fetchQuestions)
-  const setAnswer = useSurveyStore((s) => s.setAnswer)
-  const router = useRouter()
-
-  useEffect(() => {
-    if (questions.length === 0) fetchQuestions()
-  }, [fetchQuestions, questions.length])
-
-  const { register, handleSubmit } = useForm<FormValues>()
-
-  function onSubmit(values: FormValues) {
-    // Save each answer to the store
-    Object.entries(values).forEach(([qid, value]) => {
-      setAnswer(qid, value)
-    })
-
-    // TODO: post to backend with postAnswers(...) in lib/api.ts,
-    // using token from store if needed.
-
-    router.push('/review')
-  }
+  const [submitted, setSubmitted] = useState(false)
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
-        <QuestionList questions={questions} register={register} />
-        <div className="flex items-center justify-between mt-8">
-          <div className="w-1/3">
-            <ProgressBar percent={50} />
-          </div>
-          <div>
-            <button className="px-10 py-3 bg-teal-600 text-white rounded-lg">التالي</button>
-          </div>
-        </div>
-      </form>
+    <div className="px-12 py-10" dir="rtl">
+      <h1 className="text-4xl font-light mb-10 text-slate-800">الاستبيان</h1>
+
+      <div className="bg-white rounded-2xl shadow p-10">
+        <QuestionList mode="answer" />
+        {!submitted ? (
+          <button
+            onClick={() => setSubmitted(true)}
+            className="mt-10 w-full bg-gradient-to-r from-teal-600 to-cyan-600 text-white text-xl font-light py-4 rounded-xl hover:opacity-90"
+          >
+            إرسال الإجابات
+          </button>
+        ) : (
+          <div className="text-center text-green-700 text-lg mt-6">تم إرسال الإجابات بنجاح ✅</div>
+        )}
+      </div>
     </div>
   )
 }

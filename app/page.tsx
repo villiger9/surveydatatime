@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default function AdminPage() {
   // local mock state for template only
-  const [questions, setQuestions] = useState([
+  const [questions] = useState([
     { id: 'q1', text: 'مثال سؤال 1' },
     { id: 'q2', text: 'مثال سؤال 2' },
   ])

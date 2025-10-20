@@ -20,8 +20,10 @@ export default function LoginPage() {
     try {
       await login(username, password)
       router.push('/survey')
-    } catch (err: any) {
-      setError(err?.message || 'فشل في تسجيل الدخول')
+    } catch (err: unknown) {
+      // narrow unknown to Error to safely read message (avoids `any` lint rule)
+      const message = err instanceof Error ? err.message : String(err ?? 'فشل في تسجيل الدخول')
+      setError(message)
     } finally {
       setLoading(false)
     }

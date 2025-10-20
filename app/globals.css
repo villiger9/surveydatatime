@@ -1,26 +1,15 @@
 /* app/globals.css */
 
-/* Tailwind directive imports - keep if your tailwind build expects them */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ---- Font ----
-   Using the Cairo font (nice Arabic UI font). If you prefer another,
-   change the import and font-family below.
-   Add in head or import via next/font if you use Next's font optimization.
-*/
-
-/* If you want to use Google fonts the faster way is to add a <link> in app/head or use next/font.
-   For now fallback to system plus Arabic-friendly fonts.
-*/
 :root {
   --brand-teal: #0b8b8f;
   --left-overlay: rgba(0, 0, 0, 0.62);
   --input-bg: #f2f4f6;
 }
 
-/* font stack tuned for Arabic */
 html,
 body {
   height: 100%;
@@ -33,7 +22,6 @@ body {
   color: #0f172a;
 }
 
-/* reset heading weights to match screenshot's light headings */
 h1,
 h2,
 h3,
@@ -42,7 +30,7 @@ h4 {
   color: #0f172a;
 }
 
-/* ---- Left panel exact look ----
+/* ---- Left Panel Styles ----
    The left panel uses a full-size background with dark overlay and large typography.
 */
 .left-panel-root {
@@ -63,7 +51,7 @@ h4 {
   background: var(--left-overlay);
 }
 
-/* left panel content bounding box (matching screenshot left-margin) */
+/* left panel content bounding box */
 .left-panel-content {
   position: absolute;
   inset: 0;
@@ -73,9 +61,9 @@ h4 {
   color: white;
 }
 
-/* hero title size tuned */
+/* hero title size */
 .left-panel-title {
-  font-size: 35px; /* big like screenshot */
+  font-size: 35px; /* big */
   line-height: 1;
   font-weight: 300;
   color: white;
@@ -101,7 +89,7 @@ h4 {
   opacity: 0.85;
 }
 
-/* progress bar container (we also include Tailwind bar below) */
+/* progress bar container */
 .progress-outer {
   width: 100%;
   height: 12px;
@@ -117,7 +105,7 @@ h4 {
   transition: width 0.45s ease;
 }
 
-/* ---- Form / inputs tuned ---- */
+/* ---- Form / inputs ---- */
 .form-root {
   width: 100%;
 }
@@ -133,13 +121,12 @@ h4 {
 /* inputs: borderless, light gray bg, big padding */
 .input-ghost {
   width: 100%;
-  /* further reduce inputs by ~20% from previous size */
-  padding: 14px 35px 14px 13px; /* reduced padding */
+  padding: 14px 35px 14px 13px; /* reduced */
   border-radius: 9px;
   background: var(--input-bg);
   color: #0f172a;
   border: none;
-  font-size: 25px; /* reduced further */
+  font-size: 25px; /* reduced */
   text-align: right;
   box-shadow: none;
 }
@@ -167,7 +154,7 @@ h4 {
   align-items: center;
 }
 
-/* CTA button tuned */
+/* CTA button */
 .btn-cta {
   width: 100%;
   padding: 18px 24px;
@@ -209,9 +196,7 @@ h4 {
   }
 }
 
-/* layout root: force a left-to-right column flow for the overall app layout
-   so the visual layout (aside on the left) is independent from the page
-   text direction (RTL). The app's main content can continue to be RTL. */
+/* layout root: force a left-to-right column flow for the overall app layout */
 .app-layout-root {
   display: flex;
   flex-direction: row;

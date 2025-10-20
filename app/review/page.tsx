@@ -9,8 +9,9 @@ export default function ReviewPage() {
 
   // transform to rows for table
   const rows = Object.entries(answers).map(([qid, answer]) => {
-    const q = questions.find((x) => x.id === qid)
-    return { id: qid, question: q?.text ?? qid, answer }
+    const qidNum = Number(qid)
+    const q = questions.find((x) => x.id === qidNum)
+    return { id: qid, question: q?.text ?? qid, answer: answer.answer }
   })
 
   return (
