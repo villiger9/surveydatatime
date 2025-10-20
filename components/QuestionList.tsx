@@ -46,7 +46,6 @@ export default function QuestionList({ mode = 'admin' }: Props) {
 
         {questions.map((q, idx) => (
           <div key={q.id} className="bg-white">
-            {/* question row */}
             <div className="p-5 flex items-start gap-4">
               <div className="flex-1">
                 <div className="flex items-start justify-between gap-4">
@@ -63,7 +62,6 @@ export default function QuestionList({ mode = 'admin' }: Props) {
                         onClick={() => setEditing(q)}
                         className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-slate-100"
                       >
-                        {/* pen icon */}
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-slate-600">
                           <path d="M3 21l3-1 11-11 1-3-3 1L4 20z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
                           <path d="M14 4l6 6" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -78,7 +76,6 @@ export default function QuestionList({ mode = 'admin' }: Props) {
                         }}
                         className="w-10 h-10 rounded-lg flex items-center justify-center hover:bg-slate-50"
                       >
-                        {/* bin icon */}
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" className="text-red-500">
                           <path d="M3 6h18" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                           <path d="M8 6v14a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
@@ -92,9 +89,9 @@ export default function QuestionList({ mode = 'admin' }: Props) {
 
                 {/* answer UI (for mode === 'answer') */}
                 {mode === 'answer' && q.type === 'radio' && q.options && (
-                  <div className="mt-4 flex flex-col gap-3">
+                  <div className="mt-4 flex flex-row flex-wrap gap-4">
                     {q.options.map((opt, i) => (
-                      <label key={i} className="inline-flex items-center gap-3 text-slate-700 cursor-pointer">
+                      <label key={i} className="inline-flex items-center gap-2 text-slate-700 cursor-pointer">
                         <input
                           type="radio"
                           name={`q-${q.id}`}
@@ -123,9 +120,9 @@ export default function QuestionList({ mode = 'admin' }: Props) {
 
                 {/* preview UI for admin (read-only-like preview but not editable) */}
                 {mode === 'admin' && q.type === 'radio' && q.options && (
-                  <div className="mt-4 flex flex-col gap-3">
+                  <div className="mt-4 flex flex-row flex-wrap gap-4">
                     {q.options.map((opt, i) => (
-                      <label key={i} className="inline-flex items-center gap-3 text-slate-700">
+                      <label key={i} className="inline-flex items-center gap-2 text-slate-700">
                         <input
                           type="radio"
                           name={`preview-${q.id}`}
@@ -146,7 +143,7 @@ export default function QuestionList({ mode = 'admin' }: Props) {
               </div>
             </div>
 
-            {/* separator line between questions (except after last) */}
+            {/* separator line between questions */}
             {idx !== questions.length - 1 && <div className="border-t border-slate-100" />}
           </div>
         ))}
@@ -171,7 +168,7 @@ export default function QuestionList({ mode = 'admin' }: Props) {
           onSave={(payload) => {
             addQuestion(payload)
             setShowCreate(false)
-            // TODO: sync to API (POST /questions) if you add backend
+            // TODO: sync to API (POST /questions)
           }}
         />
       </Modal>

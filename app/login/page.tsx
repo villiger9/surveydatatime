@@ -21,7 +21,6 @@ export default function LoginPage() {
       await login(username, password)
       router.push('/survey')
     } catch (err: unknown) {
-      // narrow unknown to Error to safely read message (avoids `any` lint rule)
       const message = err instanceof Error ? err.message : String(err ?? 'فشل في تسجيل الدخول')
       setError(message)
     } finally {
@@ -58,7 +57,7 @@ export default function LoginPage() {
               type="button"
               onClick={() => setShowPass((s) => !s)}
               aria-label="toggle password"
-              className="input-icon"
+              className="input-icon input-icon-left"
             >
               {showPass ? (
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

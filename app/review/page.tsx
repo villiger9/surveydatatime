@@ -1,97 +1,100 @@
-'use client'
+"use client"
 
-import { useEffect, useState } from 'react'
-
-interface Poll {
-  id: number
-  created_at: string
-  user_id: number | null
-  answers: Record<string, string>
-}
+import { useEffect, useState } from "react"
+import type { Poll, PaginatedPolls, PollQuestion, PollAnswerOption } from "../../types"
+import { fetchPolls } from "../../lib/api"
+import Image from "next/image"
 
 export default function ReviewPage() {
   const [polls, setPolls] = useState<Poll[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [page, setPage] = useState(1)
+  const [pagesize] = useState(10)
+  const [tokenInput, setTokenInput] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('survey-token') ?? '' : ''
+  )
+  const [savedToken, setSavedToken] = useState(() =>
+    typeof window !== 'undefined' ? localStorage.getItem('survey-token') ?? '' : ''
+  )
+  const [selectedQuestion, setSelectedQuestion] = useState<{
+    question: PollQuestion
+    pollTitle: string
+  } | null>(null)
 
   useEffect(() => {
-    async function fetchPolls() {
+    let mounted = true
+    async function load() {
+      setLoading(true)
+      setError(null)
       try {
-        const res = await fetch(
-          'https://poll-rs4it-test.rs-developing.com/admin/poll/?page=1&pagesize=10&joinOperator=and'
-        )
-        if (!res.ok) throw new Error('Failed to fetch')
-        const data = await res.json()
-        // Adjust based on actual response shape (inspect Swagger response)
-        setPolls(data.results || data || [])
-      } catch (err: any) {
-        setError(err.message)
+        // localStorage token; fallback to public env var
+        const tokenFromStorage = typeof window !== "undefined" ? localStorage.getItem("survey-token") : undefined
+        const token = tokenFromStorage ?? (process.env.NEXT_PUBLIC_SURVEY_TOKEN ?? undefined)
+        const data: PaginatedPolls = await fetchPolls(page, pagesize, token ?? undefined)
+        if (!mounted) return
+        setPolls(data.data || [])
+      } catch (err: unknown) {
+        if (err instanceof Error) setError(err.message)
+        else setError(String(err))
       } finally {
-        setLoading(false)
+        if (mounted) setLoading(false)
       }
     }
 
-    fetchPolls()
-  }, [])
+    load()
+    return () => {
+      mounted = false
+    }
+  }, [page, pagesize])
 
   return (
     <div className="px-12 py-10" dir="rtl">
-      <h1 className="text-4xl font-light mb-10 text-slate-800">
-        استعراض الاستبيانات
-      </h1>
+  <h1 className="text-4xl font-light mb-6 text-slate-800">استعراض الاستبيانات</h1>
 
       {loading && <div>جار التحميل...</div>}
       {error && <div className="text-red-600">{error}</div>}
 
       {!loading && !error && (
-        <div className="bg-slate-50 rounded-2xl shadow-inner p-8 overflow-x-auto">
-          <table className="min-w-full text-right">
-            <thead>
-              <tr className="text-slate-600 border-b">
-                <th className="py-3 px-4 font-normal">#</th>
-                <th className="py-3 px-4 font-normal">المستخدم</th>
-                <th className="py-3 px-4 font-normal">تاريخ الإنشاء</th>
-                <th className="py-3 px-4 font-normal">الإجابات</th>
-              </tr>
-            </thead>
-            <tbody>
-              {polls.length > 0 ? (
-                polls.map((poll, idx) => (
-                  <tr
-                    key={poll.id}
-                    className="border-b last:border-none hover:bg-slate-100"
-                  >
-                    <td className="py-3 px-4 text-slate-700">{idx + 1}</td>
-                    <td className="py-3 px-4 text-slate-700">
-                      {poll.user_id || '—'}
-                    </td>
-                    <td className="py-3 px-4 text-slate-700">
-                      {new Date(poll.created_at).toLocaleDateString('ar-SA')}
-                    </td>
-                    <td className="py-3 px-4 text-slate-700">
-                      {Object.entries(poll.answers || {}).map(
-                        ([q, a], i) => (
-                          <div key={i}>
-                            <span className="text-slate-500">{q}: </span>
-                            {a}
-                          </div>
-                        )
-                      )}
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td
-                    colSpan={4}
-                    className="text-center py-6 text-slate-500"
-                  >
-                    لا توجد استبيانات حالياً
-                  </td>
+        <div className="bg-white rounded-2xl shadow p-6">
+          <div className="overflow-x-auto">
+            <table className="w-full text-right">
+              <thead>
+                <tr className="text-slate-600 border-b">
+                  <th className="py-3 px-4 font-normal">ID</th>
+                  <th className="py-3 px-4 font-normal">Title</th>
+                  <th className="py-3 px-4 font-normal">Description</th>
+                  <th className="py-3 px-4 font-normal">Creation Date</th>
                 </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {polls.map((poll) => (
+                  <tr key={poll.id} className="border-b hover:bg-slate-50">
+                    <td className="py-4 px-4 text-slate-800">{poll.id}</td>
+                    <td className="py-4 px-4 text-slate-800">{poll.title}</td>
+                    <td className="py-4 px-4 text-slate-500">{poll.description}</td>
+                    <td className="py-4 px-4 text-slate-500">{new Date(poll.createdAt).toLocaleString('ar-SA')}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="mt-4 flex items-center justify-between">
+            <button
+              onClick={() => setPage((p) => Math.max(1, p - 1))}
+              disabled={page === 1}
+              className="px-3 py-2 border rounded disabled:opacity-50"
+            >
+              السابق
+            </button>
+            <div>صفحة {page}</div>
+            <button
+              onClick={() => setPage((p) => p + 1)}
+              className="px-3 py-2 border rounded"
+            >
+              التالي
+            </button>
+          </div>
         </div>
       )}
     </div>

@@ -8,7 +8,7 @@ export type Question = {
   id: number
   text: string
   type: QuestionType
-  // optional: radio options (when type === 'radio')
+  
   options?: string[]
 }
 
@@ -66,7 +66,7 @@ export const useSurveyStore = create<SurveyState>()(
       clearAnswers: () => set({ answers: [] }),
 
       setQuestions: (qs) => set({ questions: qs }),
-      // simple mock login (store a token) — replace with real API call as needed
+      // simple mock login (store a token) — replace with real API call
       login: async (username: string, password: string) => {
         // very small validation
         if (!username || !password) throw new Error('اسم المستخدم وكلمة المرور مطلوبة')
@@ -81,7 +81,6 @@ export const useSurveyStore = create<SurveyState>()(
     }),
     {
       name: 'survey-storage-v1',
-      // You can blacklist or whitelist fields e.g., whitelist: ['questions']
     }
   )
 )

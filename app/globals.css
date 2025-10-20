@@ -30,9 +30,7 @@ h4 {
   color: #0f172a;
 }
 
-/* ---- Left Panel Styles ----
-   The left panel uses a full-size background with dark overlay and large typography.
-*/
+/* Left Panel Styles */
 .left-panel-root {
   position: relative;
   height: 100%;
@@ -105,7 +103,7 @@ h4 {
   transition: width 0.45s ease;
 }
 
-/* ---- Form / inputs ---- */
+/* Form / inputs */
 .form-root {
   width: 100%;
 }
@@ -121,12 +119,13 @@ h4 {
 /* inputs: borderless, light gray bg, big padding */
 .input-ghost {
   width: 100%;
-  padding: 14px 35px 14px 13px; /* reduced */
+  /* smaller vertical padding to reduce height */
+  padding: 8px 18px 8px 12px;
   border-radius: 9px;
   background: var(--input-bg);
   color: #0f172a;
   border: none;
-  font-size: 25px; /* reduced */
+  font-size: 18px;
   text-align: right;
   box-shadow: none;
 }
@@ -134,7 +133,7 @@ h4 {
 /* placeholder */
 .input-ghost::placeholder {
   color: #9aa1a7;
-  font-size: 16px;
+  font-size: 14px;
 }
 
 /* focus ring subtle */
@@ -152,6 +151,12 @@ h4 {
   z-index: 30;
   display: inline-flex;
   align-items: center;
+}
+
+/* position the input icon on the left side (useful on the login page) */
+.input-icon-left {
+  left: 18px;
+  right: auto;
 }
 
 /* CTA button */
@@ -207,7 +212,7 @@ h4 {
   }
 }
 
-/* layout root: force a left-to-right column flow for the overall app layout */
+/* layout root: force a left-to-right column flow */
 .app-layout-root {
   display: flex;
   flex-direction: row;
@@ -216,11 +221,9 @@ h4 {
 }
 
 .app-leftpanel {
-  /* make sure the left panel keeps its width and doesn't shrink */
   flex: 0 0 auto;
 }
 
 .app-main {
-  /* ensure main grows to fill leftover space */
   flex: 1 1 auto;
 }

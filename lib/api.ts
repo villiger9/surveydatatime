@@ -1,4 +1,6 @@
 // lib/api.ts
+import type { PaginatedPolls } from '../types'
+
 const BASE = 'https://poll-rs4it-test.rs-developing.com'
 
 async function request<T>(path: string, opts: RequestInit = {}): Promise<T> {
@@ -31,17 +33,11 @@ export async function postLogin(payload: { username: string; password: string })
   })
 }
 
-/** Example: fetch survey questions (adjust endpoint name to your swagger) */
-export async function fetchQuestions() {
-  // return an array of unknown records; callers should typecast as needed
-  return request<Record<string, unknown>[]>('/surveys') // replace with real route
-}
-
-/** Example: POST answers - replace /answers with correct endpoint */
-export async function postAnswers(payload: unknown, token?: string) {
-  return request<Record<string, unknown>>('/answers', {
-    method: 'POST',
-    body: JSON.stringify(payload),
+/** GET /admin/poll/ - fetch paginated polls */
+export async function fetchPolls(page = 1, pagesize = 10, token?: string) {
+  const qs = `?page=${page}&pagesize=${pagesize}&joinOperator=and`
+  return request<PaginatedPolls>(`/admin/poll/${qs}`, {
+    method: 'GET',
     headers: {
       Authorization: token ? `Bearer ${token}` : '',
     },
