@@ -1,36 +1,93 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+surveydatatime
 
-## Getting Started
+A small Next.js (App Router) demo app for collecting and reviewing survey/poll data.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Project idea / فكرة المشروع
+
+🧩 فكرة المشروع: نظام استبيانات بسيط
+
+إنشاء نظام استبيانات مع واجهة للإدارة والإجابة على الأسئلة، وعرض الإجابات في جدول.
+
+English summary: Build a lightweight survey system with an Admin UI to manage questions, a Survey UI to collect responses, and a Review UI to display and export responses.
+
+---
+
+## ✅ المهام المطلوبة / Required deliverables
+
+- الصفحة الرئيسية (Admin): إنشاء واجهة لإدارة الأسئلة مع تخزين البيانات باستخدام Zustand
+- صفحة الاستبيان (Survey): عرض الأسئلة وجمع الإجابات باستخدام React Hook Form
+- صفحة الاستعراض (Review): عرض الإجابات في جدول مع إمكانية التصفية والبحث
+- ملف README: شرح الإعداد والتشغيل
+
+Tech checklist (short): Next.js, Tailwind CSS, TypeScript, Zustand, React Hook Form
+
+---
+
+## What this repo contains
+
+- Next.js (App Router) + TypeScript + Tailwind CSS
+- Zustand store for app state and simple auth/token handling
+- API helper in `lib/api.ts` (includes `fetchPolls` for the review page)
+- Review page: `app/review/page.tsx` — paginated table
+- Left panel: `components/LeftPanel.tsx` and question rendering in `components/QuestionList.tsx`
+
+---
+
+## Quick start (Windows PowerShell)
+
+Install dependencies:
+
+```powershell
+cd <project-directory>
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The app will also read a token from `localStorage` under the key `survey-token`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Run the dev server:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```powershell
+npm run dev
+```
 
-## Learn More
+Build for production:
 
-To learn more about Next.js, take a look at the following resources:
+```powershell
+npm run build
+npm run start
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API / Backend notes
 
-## Deploy on Vercel
+- The app uses a small API helper in `lib/api.ts`. The review page calls `fetchPolls(page, pageSize, token?)` which expects the backend endpoint `GET /admin/poll/` returning paginated polls.
+- The API uses `Authorization: Bearer <token>` when the token is provided. The code looks for a token in `localStorage` (key `survey-token`) and falls back to `NEXT_PUBLIC_SURVEY_TOKEN` from `.env.local` for development convenience.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Folder map
+
+- `app/` — Next.js App Router pages and layout (survey, review, admin, login)
+- `components/` — reusable UI (LeftPanel, QuestionList, ProgressBar, etc.)
+- `lib/api.ts` — API helper and `fetchPolls`
+- `stores/useSurveyStore.ts` — Zustand store for questions/answers and token management
+- `types/` — TypeScript domain types (Poll, Question, etc.)
+
+---
+
+## Notes, linting
+
+- Linting: the project uses TypeScript and ESLint. Some non-blocking warnings may appear for unused imports.
+
+---
+
+## Extending and next steps
+
+- Add a detailed poll page at `app/review/poll/[pollId]/page.tsx`
+- Add filtering and server-side search on the review page for large datasets.
+- Persist question definitions to a real backend or localStorage for long-term storage.
+
+---
